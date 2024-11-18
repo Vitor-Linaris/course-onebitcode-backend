@@ -1,7 +1,10 @@
 const express = require("express");
 const authController = require("./controllers/authController");
 const dashboardController = require("./controllers/dashboardController");
-const authMiddleware = require("./middlewares/authMiddleware");
+const {
+  authMiddleware,
+  ensureUserIsAdmin,
+} = require("./middlewares/authMiddleware");
 
 const router = express.Router();
 
@@ -11,5 +14,12 @@ router.post("/auth/login", authController.login);
 router.get("/auth/logout", authMiddleware, authController.logout);
 
 router.get("/dashboard", authMiddleware, dashboardController.dashboard);
+
+router.get(
+  "/dashboard/users",
+  authMiddleware,
+  ensureUserIsAdmin,
+  dashboardController.users
+);
 
 module.exports = router;

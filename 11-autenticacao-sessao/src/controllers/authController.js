@@ -1,7 +1,4 @@
-let users = [
-  { username: "Isaac", password: "123456" },
-  { username: "John Doe", password: "654321" },
-];
+const users = require("../models/usersModels");
 
 module.exports = {
   // GET /
@@ -16,7 +13,7 @@ module.exports = {
     const userAlreadyExists = users.find((user) => user.username === username);
     if (userAlreadyExists) return res.status(400).redirect("/");
 
-    const newUser = { username, password };
+    const newUser = { username, password, role: "standard" };
     users.push(newUser);
 
     req.session.authenticated = true;
